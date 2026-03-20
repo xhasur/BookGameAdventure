@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=adventure_book_db
+      - POSTGRES_PASSWORD=book.adventure
+      - POSTGRES_USER=admin
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/data/postgresql
+
+volumes:
+  postgres-data:
