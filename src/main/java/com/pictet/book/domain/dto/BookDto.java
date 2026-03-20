@@ -1,5 +1,6 @@
 package com.pictet.book.domain.dto;
 
+import com.pictet.book.domain.Difficulty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

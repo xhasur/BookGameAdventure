@@ -18,4 +18,8 @@ public class BookService {
     public List<BookDto> getAll() {
         return this.bookRepository.getAll();
     }
+
+    public BookDto add(BookDto book){
+        return this.bookRepository.save(book);
+    }
 }
