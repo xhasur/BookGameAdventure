@@ -58,7 +58,7 @@ public class BookEntityRepository implements BookRepository {
         return this.crudBookEntity.findById(id).orElse(null);
     }
 
-    public Book saveBook(Book id) {
-        return this.crudBookEntity.save(id);
+    public void saveBook(Book id) {
+        this.crudBookEntity.save(id);
     }
 }

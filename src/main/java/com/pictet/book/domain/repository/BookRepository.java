@@ -1,6 +1,5 @@
 package com.pictet.book.domain.repository;
 
-import com.pictet.book.domain.Difficulty;
 import com.pictet.book.domain.dto.BookDto;
 import com.pictet.book.persistence.entity.Book;
 
@@ -16,5 +15,5 @@ public interface BookRepository {
 
     Book getBook(long id);
 
-    Book saveBook(Book book);
+    void saveBook(Book book);
 }
