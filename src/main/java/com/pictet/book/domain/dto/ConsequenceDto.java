@@ -9,11 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OptionDto {
+public class ConsequenceDto {
 
-    private String description;
-    private Integer gotoId;
-    private ConsequenceDto consequence;
-
-
+    private String type;
+    private String text;
+    private Integer value;
 }

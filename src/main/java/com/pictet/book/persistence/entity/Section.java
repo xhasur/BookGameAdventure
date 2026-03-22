@@ -12,7 +12,11 @@ import java.util.List;
 public class Section {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 3)
+    private Integer idSection;
 
     @Column(nullable = false, length = 250)
     private String text;

@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,6 +27,9 @@ public class Book {
 
     @Column(nullable = false, length = 10)
     private String difficulty;
+
+    @ElementCollection
+    private Set<String> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Section> sections;

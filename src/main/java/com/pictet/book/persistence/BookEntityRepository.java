@@ -1,5 +1,6 @@
 package com.pictet.book.persistence;
 
+import com.pictet.book.domain.Difficulty;
 import com.pictet.book.domain.dto.BookDto;
 import com.pictet.book.domain.repository.BookRepository;
 import com.pictet.book.persistence.crud.CrudBookEntity;
@@ -29,6 +30,23 @@ public class BookEntityRepository implements BookRepository {
     @Override
     public BookDto save(BookDto book) {
         Book bookEntity = this.bookMapper.toEntity(book);
+        if (bookEntity.getSections() != null) {
+            bookEntity.getSections().forEach(section -> {
+                section.setBook(bookEntity);
+                if (section.getOptions() != null) {
+                    section.getOptions().forEach(option -> {
+                        option.setSection(section);
+
+                    });
+                }
+            });
+        }
+
         return this.bookMapper.toDto(this.crudBookEntity.save(bookEntity));
+    }
+
+    @Override
+    public List<BookDto> getBooksByConditions(String title, String author, String difficulty, String category) {
+        return this.bookMapper.toDto(this.crudBookEntity.searchBooks(title, author, difficulty, category));
     }
 }

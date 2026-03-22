@@ -8,22 +8,18 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table
-public class Option {
+public class Consequence {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 50)
+    private String type;
+
     @Column(nullable = false, length = 250)
-    private String description;
+    private String text;
 
     @Column(nullable = false, precision = 3)
-    private Integer gotoId;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Consequence consequence;
-
-    @ManyToOne
-    private Section section;
-
+    private Integer value;
 }
