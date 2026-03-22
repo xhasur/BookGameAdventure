@@ -1,7 +1,7 @@
 package com.pictet.book.web.controller;
 
-import com.pictet.book.domain.Difficulty;
 import com.pictet.book.domain.dto.BookDto;
+import com.pictet.book.domain.dto.CategoryRequest;
 import com.pictet.book.domain.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,8 +28,8 @@ public class BookController {
     }
 
 
-    @GetMapping("/get")
-    @Operation(summary = "Get book")
+    @GetMapping("/")
+    @Operation(summary = "Get book by title , author, difficulty or  category")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the books", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid object supplied", content = @Content),
@@ -43,8 +43,49 @@ public class BookController {
                                                   @Parameter(description = "category")
                                                   @RequestParam(value = "category", required = false) String category) {
         LOGGER.info("BookController::getBooks title: {} , author:{} , difficulty:{} , category:{}   ", title, author, category, difficulty);
-        return new ResponseEntity<>(bookService.getBooksByConditions(title,author,difficulty,category), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.getBooksByConditions(title, author, difficulty, category), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get book by Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the books", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid object supplied", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Server error", content = @Content)})
+    public ResponseEntity<BookDto> getBooksById(@Parameter(description = "id", example = "1")
+                                                @PathVariable(value = "id") long id) {
+        LOGGER.info("BookController::getBooksById id: {} ", id);
+        return new ResponseEntity<>(bookService.findById(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/categories")
+    @Operation(summary = "Add category to book")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Added the category to the book", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid object supplied", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Server error", content = @Content)})
+    public ResponseEntity<BookDto> addCategory(@Parameter(description = "id", example = "1")
+                                               @PathVariable(value = "id") long id,
+                                               @Parameter(description = "category", example = "mystery")
+                                               @RequestBody CategoryRequest categoryRequest) {
+        LOGGER.info("BookController::addCategory id: {} ", categoryRequest);
+        return new ResponseEntity<>(bookService.addCategory(id , categoryRequest), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}/categories/{category}")
+    @Operation(summary = "Delete category to book")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Deleted the category to the book", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid object supplied", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Server error", content = @Content)})
+    public ResponseEntity<BookDto> deleteCategory(@Parameter(description = "id", example = "1")
+                                               @PathVariable(value = "id") long id,
+                                               @Parameter(description = "category", example = "mystery")
+                                               @PathVariable String category) {
+        LOGGER.info("BookController::deleteCategory id: {} ", category);
+        return new ResponseEntity<>(bookService.deleteCategory(id , category), HttpStatus.OK);
+    }
+
 
     @PostMapping("/save")
     @Operation(summary = "Save book")

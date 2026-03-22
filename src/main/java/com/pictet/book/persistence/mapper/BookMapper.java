@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 import java.util.List;
 //, uses = {DifficultMapper.class}
 
-@Mapper(componentModel = "spring" , uses = {SectionMapper.class} )
+@Mapper(componentModel = "spring" , uses = {SectionMapper.class } )
 public interface BookMapper {
 
     //@Mapping(source = "difficulty", target = "difficulty" , qualifiedByName = "stringToDifficult")

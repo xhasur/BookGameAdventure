@@ -28,7 +28,9 @@ public class Book {
     @Column(nullable = false, length = 10)
     private String difficulty;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "book_categories", joinColumns = @JoinColumn(name = "book_id"))
+    @Column(name = "category")
     private Set<String> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
