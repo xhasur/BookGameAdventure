@@ -1,25 +1,20 @@
 package com.pictet.book.domain.dto;
 
-import com.pictet.book.domain.Difficulty;
+import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookDto
-{
-    private String title;
-    private String author;
-    private String difficulty;
-    private List<SectionDto> sections;
-    private Set<String> categories;
+public class BookDto {
+  private String title;
+  private String author;
+  private String difficulty;
+  private List<SectionDto> sections;
+  private Set<String> categories;
 }
-

@@ -11,9 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OptionDto {
 
-    private String description;
-    private Integer gotoId;
-    private ConsequenceDto consequence;
-
-
+  private String description;
+  private Integer gotoId;
+  private ConsequenceDto consequence;
 }

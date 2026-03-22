@@ -8,17 +8,18 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring" , uses = {OptionMapper.class})
+@Mapper(
+    componentModel = "spring",
+    uses = {OptionMapper.class})
 public interface SectionMapper {
 
-    @Mapping(source = "idSection", target = "id" )
-    SectionDto toDto(Section entity);
+  @Mapping(source = "idSection", target = "id")
+  SectionDto toDto(Section entity);
 
-    List<SectionDto> toDto(Iterable<Section> entities);
+  List<SectionDto> toDto(Iterable<Section> entities);
 
-    @InheritInverseConfiguration
-    @Mapping(target = "id", ignore = true)
-    @Mapping(source = "id", target = "idSection" )
-    Section toEntity(SectionDto dto);
-
+  @InheritInverseConfiguration
+  @Mapping(target = "id", ignore = true)
+  @Mapping(source = "id", target = "idSection")
+  Section toEntity(SectionDto dto);
 }

@@ -10,16 +10,16 @@ import lombok.Setter;
 @Table
 public class Consequence {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false, length = 50)
-    private String type;
+  @Column(nullable = false, length = 50)
+  private String type;
 
-    @Column(nullable = false, length = 250)
-    private String text;
+  @Column(nullable = false, length = 250)
+  private String text;
 
-    @Column(nullable = false, precision = 3)
-    private Integer value;
+  @Column(nullable = false, precision = 3)
+  private Integer value;
 }

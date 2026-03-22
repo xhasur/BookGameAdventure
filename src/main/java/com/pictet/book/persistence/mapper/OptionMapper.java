@@ -7,13 +7,15 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {ConsequenceMapper.class})
+@Mapper(
+    componentModel = "spring",
+    uses = {ConsequenceMapper.class})
 public interface OptionMapper {
 
-    OptionDto toDto(Option entity);
+  OptionDto toDto(Option entity);
 
-    List<OptionDto> toDto(Iterable<Option> entities);
+  List<OptionDto> toDto(Iterable<Option> entities);
 
-    @InheritInverseConfiguration
-    Option toEntity(OptionDto dto);
+  @InheritInverseConfiguration
+  Option toEntity(OptionDto dto);
 }

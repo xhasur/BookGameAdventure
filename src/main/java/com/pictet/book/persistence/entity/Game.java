@@ -4,29 +4,24 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Entity
 @Table
-public class Section {
+public class Game {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @ManyToOne private Book book;
+
   @Column(nullable = false, length = 3)
   private Integer idSection;
 
-  @Column(nullable = false, length = 250)
-  private String text;
+  @Column(nullable = false, length = 3)
+  private Integer health;
 
-  @Column(nullable = false, length = 20)
-  private String type;
-
-  @ManyToOne private Book book;
-
-  @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
-  private List<Option> options;
+  @Column(nullable = false, length = 15)
+  private String gameStatus;
 }

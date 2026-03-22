@@ -2,12 +2,10 @@ package com.pictet.book.persistence.mapper;
 
 import com.pictet.book.domain.dto.BookDto;
 import com.pictet.book.persistence.entity.Book;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-
 import java.util.List;
 //, uses = {DifficultMapper.class}
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring" , uses = {SectionMapper.class } )
 public interface BookMapper {

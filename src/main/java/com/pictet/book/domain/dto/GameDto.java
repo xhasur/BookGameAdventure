@@ -1,6 +1,5 @@
 package com.pictet.book.domain.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,10 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SectionDto {
+public class GameDto {
 
   private Long id;
-  private String text;
-  private String type;
-  private List<OptionDto> options;
+  private Integer idSection;
+  private Integer health;
+  private String gameStatus;
 }

@@ -10,20 +10,18 @@ import lombok.Setter;
 @Table
 public class Option {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false, length = 250)
-    private String description;
+  @Column(nullable = false, length = 250)
+  private String description;
 
-    @Column(nullable = false, precision = 3)
-    private Integer gotoId;
+  @Column(nullable = false, precision = 3)
+  private Integer gotoId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Consequence consequence;
+  @OneToOne(cascade = CascadeType.ALL)
+  private Consequence consequence;
 
-    @ManyToOne
-    private Section section;
-
+  @ManyToOne private Section section;
 }

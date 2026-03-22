@@ -10,11 +10,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ConsequenceMapper {
 
-    ConsequenceDto toDto(Consequence entity);
+  ConsequenceDto toDto(Consequence entity);
 
-    List<ConsequenceDto> toDto(Iterable<Consequence> entities);
+  List<ConsequenceDto> toDto(Iterable<Consequence> entities);
 
-    @InheritInverseConfiguration
-    Consequence toEntity(ConsequenceDto dto);
-
+  @InheritInverseConfiguration
+  Consequence toEntity(ConsequenceDto dto);
 }

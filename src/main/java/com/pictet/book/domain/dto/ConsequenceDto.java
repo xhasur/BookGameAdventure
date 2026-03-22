@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ConsequenceDto {
 
-    private String type;
-    private String text;
-    private Integer value;
+  private String type;
+  private String text;
+  private Integer value;
 }

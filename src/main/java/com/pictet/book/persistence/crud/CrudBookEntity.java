@@ -1,11 +1,10 @@
 package com.pictet.book.persistence.crud;
 
 import com.pictet.book.persistence.entity.Book;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 public interface CrudBookEntity extends CrudRepository<Book, Long> {
 

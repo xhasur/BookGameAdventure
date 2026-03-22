@@ -4,9 +4,8 @@ import com.pictet.book.domain.dto.BookDto;
 import com.pictet.book.domain.dto.CategoryRequest;
 import com.pictet.book.domain.repository.BookRepository;
 import com.pictet.book.persistence.entity.Book;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
@@ -29,13 +28,15 @@ public class BookService {
         return this.bookRepository.save(book);
     }
 
-    public BookDto findById(long id) {
-        return this.bookRepository.findById(id);
+    public BookDto findById(long id) {return this.bookRepository.findById(id);}
+
+    public Book getBookById(long id) {
+        return this.bookRepository.getBook(id);
     }
 
     public BookDto addCategory(long id, CategoryRequest categoryRequest) {
         String category = categoryRequest.getCategory();
-        Book book = this.bookRepository.getBook(id);
+        Book book = this.getBookById(id);
         if (book == null) {
             throw new RuntimeException("Book not found");
         }
@@ -53,7 +54,7 @@ public class BookService {
     }
 
     public BookDto deleteCategory(long id, String category) {
-        Book book = this.bookRepository.getBook(id);
+        Book book = this.getBookById(id);
         if (book == null) {
             throw new RuntimeException("Book not found");
         }

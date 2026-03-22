@@ -1,13 +1,11 @@
 package com.pictet.book.persistence.entity;
 
-import com.pictet.book.domain.Difficulty;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
