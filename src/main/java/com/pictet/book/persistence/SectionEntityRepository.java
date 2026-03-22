@@ -3,6 +3,7 @@ package com.pictet.book.persistence;
 import com.pictet.book.domain.dto.SectionDto;
 import com.pictet.book.domain.repository.SectionRepository;
 import com.pictet.book.persistence.crud.CrudSectionEntity;
+import com.pictet.book.persistence.entity.Section;
 import com.pictet.book.persistence.mapper.SectionMapper;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,15 @@ public class SectionEntityRepository implements SectionRepository {
     @Override
     public SectionDto findByIdSectionAndBookId(long bookId, long sectionId) {
         return sectionMapper.toDto(crudSectionEntity.findByIdSectionAndBookId(sectionId, bookId));
+    }
 
+    @Override
+    public SectionDto findBy(long sectionId) {
+        return sectionMapper.toDto(crudSectionEntity.findById(sectionId).orElse(null));
+    }
+
+    @Override
+    public Section getBySectionId(long sectionId) {
+        return crudSectionEntity.findById(sectionId).orElse(null);
     }
 }

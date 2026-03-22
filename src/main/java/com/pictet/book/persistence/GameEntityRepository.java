@@ -1,6 +1,6 @@
 package com.pictet.book.persistence;
 
-import com.pictet.book.domain.dto.GameDto;
+import com.pictet.book.domain.dto.game.GameDto;
 import com.pictet.book.domain.repository.GameRepository;
 import com.pictet.book.persistence.crud.CrudGameEntity;
 import com.pictet.book.persistence.entity.Game;
@@ -27,5 +27,10 @@ public class GameEntityRepository implements GameRepository {
   public GameDto findById(long id) {
       return this.gameMapper.toDto(this.crudGameEntity.findById(id).orElse(null));
     }
+
+
+  public Game getGame(long id) {
+    return this.crudGameEntity.findById(id).orElse(null);
+  }
 
 }

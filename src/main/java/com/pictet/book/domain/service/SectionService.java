@@ -2,6 +2,7 @@ package com.pictet.book.domain.service;
 
 import com.pictet.book.domain.dto.SectionDto;
 import com.pictet.book.domain.repository.SectionRepository;
+import com.pictet.book.persistence.entity.Section;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,4 +17,13 @@ public class SectionService {
   public SectionDto getBookBySectionIdAndBookId(long id, long sectionId) {
     return this.sectionRepository.findByIdSectionAndBookId(id, sectionId);
   }
+
+  public SectionDto findBy(long sectionId) {
+    return this.sectionRepository.findBy(sectionId);
+  }
+
+  public Section getBySectionId(long sectionId) {
+    return this.sectionRepository.getBySectionId(sectionId);
+  }
+
 }
