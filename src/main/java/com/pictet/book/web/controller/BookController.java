@@ -73,7 +73,7 @@ public class BookController {
                                                           @Parameter(description = "sectionId", example = "1")
                                                           @PathVariable(value = "sectionId") long sectionId) {
         LOGGER.info("BookController::getBooksById id: {} and sectionId: {}", id, sectionId);
-        return new ResponseEntity<>(SectionService.getBookBySectionAndId(id, sectionId), HttpStatus.OK);
+        return new ResponseEntity<>(SectionService.getBookBySectionIdAndBookId(id, sectionId), HttpStatus.OK);
     }
 
     @PostMapping("/{id}/categories")
