@@ -18,6 +18,10 @@ public class SectionService {
     return this.sectionRepository.findByIdSectionAndBookId(id, sectionId);
   }
 
+  public Section getBookBySectionIdAndBookIdEntity(long sectionId , long bookId) {
+    return this.sectionRepository.findByIdSectionAndBookIdEntity(sectionId , bookId);
+  }
+
   public SectionDto findBy(long sectionId) {
     return this.sectionRepository.findBy(sectionId);
   }

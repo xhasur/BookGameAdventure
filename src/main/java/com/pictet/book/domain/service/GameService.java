@@ -1,13 +1,16 @@
 package com.pictet.book.domain.service;
 
-import com.pictet.book.domain.dto.game.GameDto;
-import com.pictet.book.domain.dto.game.Game;
-import com.pictet.book.domain.repository.GameRepository;
-import com.pictet.book.persistence.entity.Book;
-import com.pictet.book.persistence.entity.Section;
-import org.springframework.stereotype.Service;
-
 import static com.pictet.book.persistence.mapper.CommonMapper.mapToResponse;
+import static com.pictet.book.web.util.Constants.*;
+
+import com.pictet.book.domain.dto.game.GameDto;
+import com.pictet.book.domain.dto.game.ResponseGameDto;
+import com.pictet.book.domain.repository.GameRepository;
+import com.pictet.book.persistence.entity.*;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class GameService {
@@ -23,7 +26,7 @@ public class GameService {
     this.gameRepository = gameRepository;
   }
 
-  public GameDto startGame(Long gameRequestId, String playerId) {
+  public GameDto startGame(Long gameRequestId, String playerName) {
     Book book = this.bookService.getBookById(gameRequestId);
     if (book == null) {
       throw new RuntimeException("Book not found");
@@ -31,28 +34,80 @@ public class GameService {
 
     Section beginSection =
         book.getSections().stream()
-            .filter(section -> section.getType().equals("BEGIN"))
+            .filter(section -> section.getType().equals(SECTION_BEGIN))
             .findFirst()
             .orElseThrow();
 
-    com.pictet.book.persistence.entity.Game game = new com.pictet.book.persistence.entity.Game();
+    Game game = new Game();
     game.setBook(book);
+    game.setPlayerName(playerName);
     game.setHealth(10);
     game.setIdSection(beginSection.getIdSection());
-    game.setGameStatus("IN_PROGRESS");
+    game.setGameStatus(GAME_STATUS_IN_PROGRESS);
 
     gameRepository.saveGame(game);
     return gameRepository.findById(game.getId());
   }
 
-  public Game findById(long id) {
-    com.pictet.book.persistence.entity.Game game = this.gameRepository.getGame(id);
-
+  public ResponseGameDto findById(long id) {
+    Game game = this.gameRepository.getGame(id);
     if (game == null) {
       throw new RuntimeException("Game not found");
     }
+    return mapToResponse(game);
+  }
 
-    Section section = sectionService.getBySectionId(game.getIdSection());
-    return mapToResponse(game, section);
+  public ResponseGameDto chooseOptionGame(long gameId, long optionId) {
+    Game game = Optional.ofNullable(gameRepository.getGame(gameId))
+            .orElseThrow(() -> new RuntimeException("gameId"));
+
+    if (game.getGameStatus().equals(GAME_STATUS_FINISHED)) {
+      return mapToResponse(game);
+    }
+
+    Section currentSection =
+        Optional.ofNullable(
+                sectionService.getBookBySectionIdAndBookIdEntity(game.getIdSection(), game.getBook().getId()))
+            .orElseThrow(() -> new RuntimeException("game.getIdSection()"));
+
+    Option option =
+        currentSection.getOptions().stream()
+            .filter(o -> o.getGotoId() == optionId)
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("optionId"));
+
+    Section nextSection = Optional.ofNullable(
+            sectionService.getBookBySectionIdAndBookIdEntity(
+                    optionId,
+                    game.getBook().getId()
+            )
+    ).orElseThrow(() -> new RuntimeException("optionId"));
+
+
+    if (option.getConsequence() != null) {
+      Consequence consequence = option.getConsequence();
+
+      int newHealth = game.getHealth();
+      switch (consequence.getType()) {
+        case LOSE_HEALTH -> newHealth -= consequence.getValue();
+        case GAIN_HEALTH -> newHealth += consequence.getValue();
+      }
+      game.setHealth(newHealth);
+
+      if (newHealth <= 0) {
+        game.setGameStatus(GAME_STATUS_DEAD);
+      }
+    }
+
+    if (nextSection.getType().equals(SECTION_END)) {
+      game.setGameStatus(GAME_STATUS_FINISHED);
+    }
+
+    if (!GAME_STATUS_DEAD.equals(game.getGameStatus())) {
+      game.setIdSection(nextSection.getIdSection());
+    }
+
+    gameRepository.saveGame(game);
+    return mapToResponse(game);
   }
 }

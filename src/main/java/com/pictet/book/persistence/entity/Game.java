@@ -16,6 +16,9 @@ public class Game {
 
   @ManyToOne private Book book;
 
+  @Column(nullable = false, length = 50)
+  private String playerName;
+
   @Column(nullable = false, length = 3)
   private Integer idSection;
 
