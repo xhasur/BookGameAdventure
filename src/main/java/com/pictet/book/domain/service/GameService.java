@@ -5,11 +5,10 @@ import static com.pictet.book.web.util.Constants.*;
 
 import com.pictet.book.domain.dto.game.GameDto;
 import com.pictet.book.domain.dto.game.ResponseGameDto;
+import com.pictet.book.domain.exception.GameNotFound;
 import com.pictet.book.domain.repository.GameRepository;
 import com.pictet.book.persistence.entity.*;
-import java.util.Objects;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,9 +27,6 @@ public class GameService {
 
   public GameDto startGame(Long gameRequestId, String playerName) {
     Book book = this.bookService.getBookById(gameRequestId);
-    if (book == null) {
-      throw new RuntimeException("Book not found");
-    }
 
     Section beginSection =
         book.getSections().stream()
@@ -45,14 +41,13 @@ public class GameService {
     game.setIdSection(beginSection.getIdSection());
     game.setGameStatus(GAME_STATUS_IN_PROGRESS);
 
-    gameRepository.saveGame(game);
-    return gameRepository.findById(game.getId());
+    return gameRepository.saveGame(game);
   }
 
   public ResponseGameDto findById(long id) {
     Game game = this.gameRepository.getGame(id);
     if (game == null) {
-      throw new RuntimeException("Game not found");
+      throw new GameNotFound();
     }
     return mapToResponse(game);
   }

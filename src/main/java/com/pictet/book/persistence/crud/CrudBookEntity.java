@@ -21,4 +21,6 @@ public interface CrudBookEntity extends CrudRepository<Book, Long> {
                            @Param("category") String category);
 
 
+    Book findFirstByTitle(String title);
+
 }

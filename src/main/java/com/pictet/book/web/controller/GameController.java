@@ -50,7 +50,11 @@ public class GameController {
     public ResponseEntity<ResponseGameDto> getGameById(@Parameter(description = "id", example = "1")
                                                        @PathVariable(value = "id") long id) {
     LOGGER.info("GameController::getGameById id: {} ", id);
-    return new ResponseEntity<>(gameService.findById(id), HttpStatus.OK);
+    ResponseGameDto game = gameService.findById(id);
+    if (game == null) {
+      return ResponseEntity.notFound().build();
+    }
+    return new ResponseEntity<>(game, HttpStatus.OK);
   }
 
     @PostMapping("/{gameId}/choose/{optionId}")
@@ -64,7 +68,10 @@ public class GameController {
                                                         @Parameter(description = "GameRequest", example = "1")
                                                         @PathVariable(value = "optionId") long optionId) {
     LOGGER.info("GameController::chooseOption gameId: {}, optionId: {} ", gameId, optionId);
-    return new ResponseEntity<>(
-        gameService.chooseOptionGame(gameId, optionId), HttpStatus.OK);
+    ResponseGameDto game = gameService.chooseOptionGame(gameId, optionId);
+    if (game == null) {
+      return ResponseEntity.notFound().build();
+    }
+    return new ResponseEntity<>(game, HttpStatus.OK);
   }
 }

@@ -19,8 +19,8 @@ public class GameEntityRepository implements GameRepository {
   }
 
   @Override
-  public void saveGame(Game game) {
-      this.crudGameEntity.save(game);
+  public GameDto saveGame(Game game) {
+      return this.gameMapper.toDto(this.crudGameEntity.save(game));
   }
 
   @Override

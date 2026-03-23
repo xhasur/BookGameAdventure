@@ -5,7 +5,7 @@ import com.pictet.book.persistence.entity.Game;
 
 public interface GameRepository {
 
-  void saveGame(Game game);
+  GameDto saveGame(Game game);
 
   GameDto findById(long id);
 

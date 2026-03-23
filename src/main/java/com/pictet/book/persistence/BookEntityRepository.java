@@ -1,6 +1,7 @@
 package com.pictet.book.persistence;
 
 import com.pictet.book.domain.dto.BookDto;
+import com.pictet.book.domain.exception.BookAlreadyExistsException;
 import com.pictet.book.domain.repository.BookRepository;
 import com.pictet.book.persistence.crud.CrudBookEntity;
 import com.pictet.book.persistence.entity.Book;
@@ -26,8 +27,11 @@ public class BookEntityRepository implements BookRepository {
         return this.bookMapper.toDto(this.crudBookEntity.findAll());
     }
 
-    @Override
-    public BookDto save(BookDto book) {
+  @Override
+  public BookDto save(BookDto book) {
+    if (this.crudBookEntity.findFirstByTitle(book.getTitle()) != null) {
+      throw new BookAlreadyExistsException(book.getTitle());
+    }
         Book bookEntity = this.bookMapper.toEntity(book);
         if (bookEntity.getSections() != null) {
             bookEntity.getSections().forEach(section -> {
@@ -58,7 +62,7 @@ public class BookEntityRepository implements BookRepository {
         return this.crudBookEntity.findById(id).orElse(null);
     }
 
-    public void saveBook(Book id) {
-        this.crudBookEntity.save(id);
+    public BookDto saveBook(Book id) {
+        return this.bookMapper.toDto(this.crudBookEntity.save(id));
     }
 }

@@ -22,18 +22,7 @@ public class SectionEntityRepository implements SectionRepository {
         return sectionMapper.toDto(crudSectionEntity.findByIdSectionAndBookId(sectionId, bookId));
     }
 
-    @Override
     public Section findByIdSectionAndBookIdEntity(long sectionId, long bookId ) {
         return crudSectionEntity.findByIdSectionAndBookId(sectionId, bookId);
-    }
-
-    @Override
-    public SectionDto findBy(long sectionId) {
-        return sectionMapper.toDto(crudSectionEntity.findById(sectionId).orElse(null));
-    }
-
-    @Override
-    public Section getBySectionId(long sectionId) {
-        return crudSectionEntity.findById(sectionId).orElse(null);
     }
 }

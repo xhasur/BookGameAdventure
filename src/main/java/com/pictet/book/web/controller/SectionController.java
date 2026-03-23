@@ -38,7 +38,11 @@ public class SectionController {
                                                           @PathVariable(value = "id") long id,
                                                           @Parameter(description = "sectionId", example = "1")
                                                           @PathVariable(value = "sectionId") long sectionId) {
-        LOGGER.info("SectionController::getBooksByIdSection id: {} and sectionId: {}", id, sectionId);
-        return new ResponseEntity<>(SectionService.getBookBySectionIdAndBookId(id, sectionId), HttpStatus.OK);
+    LOGGER.info("SectionController::getBooksByIdSection id: {} and sectionId: {}", id, sectionId);
+    SectionDto section = SectionService.getBookBySectionIdAndBookId(id, sectionId);
+    if (section == null) {
+      return ResponseEntity.notFound().build();
     }
+    return new ResponseEntity<>(section, HttpStatus.OK);
+  }
 }

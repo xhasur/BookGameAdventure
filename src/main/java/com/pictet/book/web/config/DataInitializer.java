@@ -47,6 +47,7 @@ public class DataInitializer implements CommandLineRunner {
                 BookDto book = mapper.readValue(json, BookDto.class);
                 logger.debug("Book '{}' loaded by Author '{}'", book.getTitle(), book.getAuthor());
 
+
             } catch (MismatchedInputException e) {
                 logger.error("Error parsing JSON in file '{}': {}", resource.getFilename(), e.getOriginalMessage());
             } catch (IOException e) {

@@ -22,12 +22,4 @@ public class SectionService {
     return this.sectionRepository.findByIdSectionAndBookIdEntity(sectionId , bookId);
   }
 
-  public SectionDto findBy(long sectionId) {
-    return this.sectionRepository.findBy(sectionId);
-  }
-
-  public Section getBySectionId(long sectionId) {
-    return this.sectionRepository.getBySectionId(sectionId);
-  }
-
 }

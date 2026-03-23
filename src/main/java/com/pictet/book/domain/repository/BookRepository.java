@@ -5,15 +5,16 @@ import com.pictet.book.persistence.entity.Book;
 import java.util.List;
 
 public interface BookRepository {
-    List<BookDto> getAll();
+  List<BookDto> getAll();
 
-    BookDto findById(long id);
+  BookDto findById(long id);
 
-    BookDto save(BookDto book);
+  BookDto save(BookDto book);
 
-    List<BookDto> getBooksByConditions(String title, String author, String difficulty, String category);
+  List<BookDto> getBooksByConditions(
+      String title, String author, String difficulty, String category);
 
-    Book getBook(long id);
+  BookDto saveBook(Book book);
 
-    void saveBook(Book book);
+  Book getBook(long id);
 }

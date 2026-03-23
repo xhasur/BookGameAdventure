@@ -32,6 +32,7 @@ public class BookController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the books", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid object supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not found books", content = @Content),
             @ApiResponse(responseCode = "500", description = "Server error", content = @Content)})
     public ResponseEntity<List<BookDto>> getBooks(@Parameter(description = "title", example = "The Crystal Caverns")
                                                   @RequestParam(value = "title", required = false) String title,
@@ -41,21 +42,35 @@ public class BookController {
                                                   @RequestParam(required = false) String difficulty,
                                                   @Parameter(description = "category")
                                                   @RequestParam(value = "category", required = false) String category) {
-        LOGGER.info("BookController::getBooks title: {} , author:{} , difficulty:{} , category:{}   ", title, author, category, difficulty);
-        return new ResponseEntity<>(bookService.getBooksByConditions(title, author, difficulty, category), HttpStatus.OK);
+    LOGGER.info(
+        "BookController::getBooks title: {} , author:{} , difficulty:{} , category:{}   ",
+        title,
+        author,
+        category,
+        difficulty);
+    List<BookDto> books = bookService.getBooksByConditions(title, author, difficulty, category);
+    if (books.isEmpty()) {
+      return ResponseEntity.notFound().build();
     }
+    return new ResponseEntity<>(books, HttpStatus.OK);
+  }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get book by Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the books", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid object supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not found books", content = @Content),
             @ApiResponse(responseCode = "500", description = "Server error", content = @Content)})
     public ResponseEntity<BookDto> getBooksById(@Parameter(description = "id", example = "1")
                                                 @PathVariable(value = "id") long id) {
-        LOGGER.info("BookController::getBooksById id: {} ", id);
-        return new ResponseEntity<>(bookService.findById(id), HttpStatus.OK);
+    LOGGER.info("BookController::getBooksById id: {} ", id);
+    BookDto bookDto = bookService.findById(id);
+    if (bookDto == null) {
+      return ResponseEntity.notFound().build();
     }
+    return new ResponseEntity<>(bookDto, HttpStatus.OK);
+  }
 
     @PostMapping("/{id}/categories")
     @Operation(summary = "Add category to book")
@@ -67,9 +82,13 @@ public class BookController {
                                                @PathVariable(value = "id") long id,
                                                @Parameter(description = "category", example = "mystery")
                                                @RequestBody CategoryRequest categoryRequest) {
-        LOGGER.info("BookController::addCategory id: {} , category: {} ", id, categoryRequest);
-        return new ResponseEntity<>(bookService.addCategory(id, categoryRequest), HttpStatus.OK);
+    LOGGER.info("BookController::addCategory id: {} , category: {} ", id, categoryRequest);
+    BookDto bookDto = bookService.addCategory(id, categoryRequest);
+    if (bookDto == null) {
+      return ResponseEntity.notFound().build();
     }
+    return new ResponseEntity<>(bookDto, HttpStatus.OK);
+  }
 
     @DeleteMapping("/{id}/categories/{category}")
     @Operation(summary = "Delete category to book")
@@ -82,7 +101,11 @@ public class BookController {
                                                   @Parameter(description = "category", example = "mystery")
                                                   @PathVariable String category) {
         LOGGER.info("BookController::deleteCategory, id: {}, category: {} ", id, category);
-        return new ResponseEntity<>(bookService.deleteCategory(id, category), HttpStatus.OK);
+        BookDto bookDto = bookService.deleteCategory(id, category);
+        if (bookDto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(bookDto, HttpStatus.OK);
     }
 
 
@@ -92,9 +115,11 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "Book saved successfully", content = @Content),
             @ApiResponse(responseCode = "500", description = "Server error", content = @Content)})
     public ResponseEntity<BookDto> add(@RequestBody BookDto book) {
-        LOGGER.info("BookController::add book: {} ", book);
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.bookService.add(book));
-
+    LOGGER.info("BookController::add book: {} ", book);
+    BookDto bookDto = this.bookService.add(book);
+    if (bookDto == null) {
+      return ResponseEntity.notFound().build();
     }
-
+    return ResponseEntity.status(HttpStatus.CREATED).body(bookDto);
+  }
 }
