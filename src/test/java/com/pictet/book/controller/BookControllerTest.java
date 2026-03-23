@@ -13,7 +13,6 @@ import com.pictet.book.domain.service.BookService;
 import com.pictet.book.web.controller.BookController;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +27,14 @@ class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @MockitoBean
     private BookService bookService;
 
     @Test
     @DisplayName("Test - Should return a Book object when the parameters sent are correct.")
-    void testGetBooks_Found() throws Exception {
+    void testGetBooksFound() throws Exception {
         String title = "The Crystal Caverns";
         String author = "Evelyn Stormrider";
         String difficulty = "EASY";
@@ -57,7 +56,7 @@ class BookControllerTest {
 
     @Test
     @DisplayName("Test - Should return badRequest when the endpoint is called without values")
-    void testGetBooks_empty() throws Exception {
+    void testGetBooksEmpty() throws Exception {
         String title = "The Crystal Caverns";
         String author = "Evelyn Stormrider";
         String difficulty = "HARD";
@@ -75,7 +74,7 @@ class BookControllerTest {
 
     @Test
     @DisplayName("Test - Should return a Book object byId.")
-    void testGetBooks_Found_byId() throws Exception {
+    void testGetBooksFoundById() throws Exception {
         long bookId = 1;
 
         BookDto book1 = new BookDto();
@@ -88,7 +87,7 @@ class BookControllerTest {
 
     @Test
     @DisplayName("Test - Should return a not found when the id is not correct.")
-    void test_GetBooks_not_found_byId() throws Exception {
+    void testGetBooksNotFoundById() throws Exception {
         long bookId = 1;
 
         when(bookService.findById(bookId))
@@ -101,7 +100,7 @@ class BookControllerTest {
 
     @Test
     @DisplayName("Test - Should return a not found when the books  is not saved.")
-    void test_saveBook_success() throws Exception {
+    void testSaveBookSuccess() throws Exception {
         String title = "The Crystal Caverns";
         String author = "Evelyn Stormrider";
         String difficulty = "EASY";

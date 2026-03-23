@@ -6,18 +6,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pictet.book.domain.dto.BookDto;
 import com.pictet.book.domain.dto.game.GameDto;
 import com.pictet.book.domain.dto.game.GameRequest;
 import com.pictet.book.domain.dto.game.ResponseGameDto;
-import com.pictet.book.domain.exception.BookNotFound;
 import com.pictet.book.domain.exception.GameNotFound;
-import com.pictet.book.domain.service.BookService;
 import com.pictet.book.domain.service.GameService;
-import com.pictet.book.web.controller.BookController;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.pictet.book.web.controller.GameController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,15 +23,17 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(GameController.class)
 class GameControllerTest {
 
-  @Autowired private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @MockitoBean private GameService gameService;
+  @MockitoBean
+  private GameService gameService;
 
   @Test
   @DisplayName("Test - Should return a Game object when the parameters are correct.")
-  void testGetBooks_Found() throws Exception {
+  void testGetBooksFound() throws Exception {
     long gameId = 9;
     ResponseGameDto game = new ResponseGameDto();
 
@@ -49,7 +44,7 @@ class GameControllerTest {
 
   @Test
   @DisplayName("Test - Should return a not found when the parameters are incorrect.")
-  void testGetBooks_not_Found() throws Exception {
+  void testGetBooksNotFound() throws Exception {
     long gameId = 9;
 
     when(gameService.findById(gameId)).thenThrow(GameNotFound.class);
@@ -59,7 +54,7 @@ class GameControllerTest {
 
   @Test
   @DisplayName("Test - Should return a ok   when the game  is saved.")
-  void test_start_game_start() throws Exception {
+  void testStartGame() throws Exception {
    long bookId = 9;
    String playerName = "Andres";
 
@@ -80,7 +75,7 @@ class GameControllerTest {
 
   @Test
   @DisplayName("Test - Should return a error   when the game  is not saved.")
-  void test_start_game_not_start() throws Exception {
+  void testStartGameNotWorking() throws Exception {
     long bookId = 9;
     String playerName = "Andres";
 
