@@ -27,7 +27,7 @@ public class BookController {
 
     }
 
-    @GetMapping("/")
+    @GetMapping
     @Operation(summary = "Get book by title , author, difficulty or  category")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the books", content = @Content),
