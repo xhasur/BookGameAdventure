@@ -7,6 +7,9 @@ import com.pictet.book.domain.dto.BookDto;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+
+import com.pictet.book.domain.service.BookService;
+import com.pictet.book.persistence.mapper.BookMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -17,9 +20,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataInitializer implements CommandLineRunner {
     private final ObjectMapper mapper;
+    private final BookService bookService;
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
 
-    public DataInitializer() {
+    public DataInitializer(BookService bookService) {
+        this.bookService = bookService;
         mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
@@ -46,6 +51,7 @@ public class DataInitializer implements CommandLineRunner {
 
                 BookDto book = mapper.readValue(json, BookDto.class);
                 logger.debug("Book '{}' loaded by Author '{}'", book.getTitle(), book.getAuthor());
+                bookService.add(book);
 
 
             } catch (MismatchedInputException e) {

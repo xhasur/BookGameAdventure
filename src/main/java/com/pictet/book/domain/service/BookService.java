@@ -74,6 +74,7 @@ public class BookService {
     if (category == null || category.isBlank()) {
       throw new CategoryNotFound();
     }
+    category = category.trim().toUpperCase();
 
     boolean removed = book.getCategories().remove(category);
     if (!removed) {

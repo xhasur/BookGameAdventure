@@ -8,19 +8,19 @@ import org.springframework.data.repository.query.Param;
 
 public interface CrudBookEntity extends CrudRepository<Book, Long> {
 
-    @Query("""
-            SELECT DISTINCT b FROM Book b LEFT JOIN b.categories c
-            WHERE (:author IS NULL OR LOWER(b.author) LIKE LOWER(CONCAT('%', :author, '%')))
-              AND (:title IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%')))
-              AND (:difficulty IS NULL OR b.difficulty = :difficulty)
-              AND (:category IS NULL OR c = :category)
-              """)
-    List<Book> searchBooks(@Param("title") String title,
-                           @Param("author") String author,
-                           @Param("difficulty") String difficulty,
-                           @Param("category") String category);
+  @Query(
+"""
+    SELECT DISTINCT b FROM Book b
+    WHERE (:author IS NULL OR LOWER(b.author) LIKE LOWER(CONCAT('%', CAST(:author AS text), '%')))
+      AND (:title IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', CAST(:title AS text), '%')))
+      AND (:difficulty IS NULL OR b.difficulty = :difficulty)
+      AND (:category IS NULL OR :category MEMBER OF b.categories)
+""")
+  List<Book> searchBooks(
+      @Param("title") String title,
+      @Param("author") String author,
+      @Param("difficulty") String difficulty,
+      @Param("category") String category);
 
-
-    Book findFirstByTitle(String title);
-
+  Book findFirstByTitle(String title);
 }
