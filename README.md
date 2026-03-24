@@ -17,6 +17,7 @@ Spring Boot + JPA + PostgreSQL + OpenAPI
 - Spring Boot 4.x
 - Spring Data JPA (spring-boot-starter-data-jpa)
 - Spring Web MVC (spring-boot-starter-webmvc)
+- Spring Security
 - Spring Boot Docker Compose
 - Serialization Jackson (jackson-core, jackson-databind, jackson-annotations)
 - Lombok
